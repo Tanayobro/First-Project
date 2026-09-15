@@ -1,13 +1,11 @@
 # MNIST Digit Classification Project
-# We will build this step-by-step.
 import torch
 import torch.nn as nn
 import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 
-# --- Step 1: Device Configuration & Hyperparameters ---
-# Select GPU (MPS for Apple Silicon Mac, CUDA for Nvidia) or fallback to CPU
+# Selecting GPU (MPS for Apple Silicon Mac, CUDA for Nvidia) or fallback to CPU
 device = torch.device('mps' if torch.backends.mps.is_available() else 'cuda' if torch.cuda.is_available() else 'cpu')
 print(f"Using device: {device}")
 
@@ -16,7 +14,6 @@ batch_size = 64
 learning_rate = 0.001
 num_epochs = 5
 
-# --- Step 2: Prepare Dataset and DataLoaders ---
 # Data Augmentation for training: Random slight rotation, translation & scale to handle custom drawing styles
 train_transform = transforms.Compose([
     transforms.RandomAffine(degrees=10, translate=(0.06, 0.06), scale=(0.92, 1.08)),
@@ -51,7 +48,7 @@ test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=Fa
 
 print(f"Training samples: {len(train_dataset)}, Test samples: {len(test_dataset)}")
 
-# --- Step 3: Define the Neural Network Architecture ---
+# Defining the Neural Network Architecture 
 class ConvNet(nn.Module):
     def __init__(self):
         super(ConvNet, self).__init__()
@@ -87,7 +84,6 @@ class ConvNet(nn.Module):
 model = ConvNet().to(device)
 print(model)
 
-# --- Step 4: Loss Function and Optimizer ---
 # Loss function: Measures how far off our predictions are from the true labels
 criterion = nn.CrossEntropyLoss()
 
@@ -131,7 +127,6 @@ for epoch in range(num_epochs):
     avg_epoch_loss = running_loss / total_steps
     print(f"--> Epoch [{epoch + 1}/{num_epochs}] Finished. Average Loss: {avg_epoch_loss:.4f}")
 
-# --- Step 6: Evaluate Model on Test Data ---
 print("\n--- Evaluating on Test Data ---")
 model.eval()  # Put model in evaluation mode (disables dropout)
 
@@ -153,7 +148,7 @@ with torch.no_grad():
 accuracy = 100.0 * correct / total
 print(f"Accuracy of the model on the 10,000 test images: {accuracy:.2f}%")
 
-# --- Step 7: Save the Trained Model ---
+# Saving the model
 model_path = 'mnist_cnn.pth'
 torch.save(model.state_dict(), model_path)
 print(f"\nModel saved successfully to {model_path}!")
