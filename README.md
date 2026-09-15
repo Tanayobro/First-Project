@@ -8,7 +8,10 @@ This showcases how my program executes Each digit one by one by the trained mode
 
 To try my code out
 Write any number out in MS Paint or Freeform and take a screenshot of that
+and it would give out a neat output just like the screenshot above
+
+
+
+You can also use it in your project as the function returns the value read.
 
 ```python3 predict.py <file-name>```
-
-and it would give out a neat output just like the screenshot above
